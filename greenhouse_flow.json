@@ -1,0 +1,393 @@
+[
+    {
+        "id": "003e8705df617d57",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "uiTab",
+        "type": "ui_tab",
+        "name": "GH Dashboard",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "uiGroup",
+        "type": "ui_group",
+        "name": "Greenhouse",
+        "tab": "uiTab",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "7b5286ef9efcca14",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "9b4b1e07.c6823",
+        "type": "ui_tab",
+        "name": "Greenhouse",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "2e5a3a76.048436",
+        "type": "ui_group",
+        "name": "Greenhouse Dashboard",
+        "tab": "9b4b1e07.c6823",
+        "order": 1,
+        "width": "6"
+    },
+    {
+        "id": "410684a5d839d933",
+        "type": "function",
+        "z": "003e8705df617d57",
+        "name": "Virtual ESP32 Sensors",
+        "func": "let temperature = (Math.random() * 10 + 25).toFixed(1); // 25–35°C\nlet humidity = (Math.random() * 20 + 50).toFixed(1);    // 50–70%\nlet soil = (Math.random() * 50 + 30).toFixed(1);         // 30–80%\n\nmsg.payload = {\n    temperature: parseFloat(temperature),\n    humidity: parseFloat(humidity),\n    soil: parseFloat(soil)\n};\nreturn msg;",
+        "outputs": 1,
+        "x": 360,
+        "y": 140,
+        "wires": [
+            [
+                "15bfaac51ac9b2af",
+                "ba12172812b879ac",
+                "6aea05a0bef3be5d",
+                "6bd0af3d3bfe729e"
+            ]
+        ]
+    },
+    {
+        "id": "e355b66f8070149b",
+        "type": "inject",
+        "z": "003e8705df617d57",
+        "name": "Simulate every 5s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.5,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 90,
+        "y": 140,
+        "wires": [
+            [
+                "410684a5d839d933"
+            ]
+        ]
+    },
+    {
+        "id": "15bfaac51ac9b2af",
+        "type": "ui_gauge",
+        "z": "003e8705df617d57",
+        "name": "Temperature Gauge",
+        "group": "2e5a3a76.048436",
+        "order": 1,
+        "gtype": "donut",
+        "title": "Temperature (°C)",
+        "label": "°C",
+        "format": "{{msg.payload.temperature}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "x": 670,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "ba12172812b879ac",
+        "type": "ui_gauge",
+        "z": "003e8705df617d57",
+        "name": "Humidity Gauge",
+        "group": "2e5a3a76.048436",
+        "order": 2,
+        "gtype": "donut",
+        "title": "Humidity (%)",
+        "label": "%",
+        "format": "{{msg.payload.humidity}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "x": 670,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "6aea05a0bef3be5d",
+        "type": "function",
+        "z": "003e8705df617d57",
+        "name": "Temp Control (Fan)",
+        "func": "let temp = msg.payload.temperature;\nlet fanStatus = context.get('fanStatus') || 0;\nconst ON_THRESHOLD = 30;\nconst OFF_THRESHOLD = 27;\n\nif (temp >= ON_THRESHOLD && fanStatus === 0) fanStatus = 1;\nelse if (temp <= OFF_THRESHOLD && fanStatus === 1) fanStatus = 0;\n\ncontext.set('fanStatus', fanStatus);\nmsg.payload = fanStatus;\nmsg.topic = 'fan';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 200,
+        "wires": [
+            [
+                "5f02a4b1d76add17"
+            ]
+        ]
+    },
+    {
+        "id": "5f02a4b1d76add17",
+        "type": "ui_led",
+        "z": "003e8705df617d57",
+        "order": 3,
+        "group": "2e5a3a76.048436",
+        "width": "",
+        "height": "",
+        "label": "Fan",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "0",
+                "valueType": "num"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "num"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Fan LED",
+        "x": 860,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "6bd0af3d3bfe729e",
+        "type": "function",
+        "z": "003e8705df617d57",
+        "name": "Soil Moisture Control (Pump + Valve)",
+        "func": "let soil = msg.payload.soil;\nlet pumpStatus = context.get('pumpStatus') || 0;\nconst ON_THRESHOLD = 40;\nconst OFF_THRESHOLD = 60;\n\nif (soil <= ON_THRESHOLD && pumpStatus === 0) pumpStatus = 1;\nelse if (soil >= OFF_THRESHOLD && pumpStatus === 1) pumpStatus = 0;\n\ncontext.set('pumpStatus', pumpStatus);\nmsg.payload = pumpStatus;\nmsg.topic = 'pump';\nreturn msg;",
+        "outputs": 1,
+        "x": 570,
+        "y": 420,
+        "wires": [
+            [
+                "c25d8ad88c612505",
+                "a2407424ff8afa8a"
+            ]
+        ]
+    },
+    {
+        "id": "c25d8ad88c612505",
+        "type": "ui_led",
+        "z": "003e8705df617d57",
+        "order": 4,
+        "group": "2e5a3a76.048436",
+        "width": "",
+        "height": "",
+        "label": "Pump",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "0",
+                "valueType": "num"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "num"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Pump LED",
+        "x": 890,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "a2407424ff8afa8a",
+        "type": "ui_led",
+        "z": "003e8705df617d57",
+        "order": 5,
+        "group": "2e5a3a76.048436",
+        "width": "",
+        "height": "",
+        "label": "Valve",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "0",
+                "valueType": "num"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "num"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Valve LED",
+        "x": 890,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "50bf55ce8fcdc061",
+        "type": "ui_gauge",
+        "z": "003e8705df617d57",
+        "name": "Soil Moisture Gauge",
+        "group": "2e5a3a76.048436",
+        "order": 6,
+        "width": "",
+        "height": "",
+        "gtype": "wave",
+        "title": "Soil Moisture (%)",
+        "label": "%",
+        "format": "{{msg.payload.soil}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ca3838",
+            "#e6e600",
+            "#00b500"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 600,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "b4eb00adbe2f4807",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6",
+            "node-red-contrib-ui-led": "0.4.11"
+        }
+    }
+]
